@@ -8,12 +8,12 @@
 
 int main(int argc, char *argv[]) {
 	int opt;
-	DIR* procDirectory = opendir("/proc");
 
 	while((opt = getopt(argc, argv, "psUSvc:")) != -1) {
 		switch(opt) {
 		case 'p':
 			printf("p");
+			printf(argv[optind]);
 			break;
 		case 's':
 			printf("s");
