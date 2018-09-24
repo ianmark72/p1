@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
 	int S = 0;
 	int v = 0;
 	int c = 1;
+	char pid = -1;
 
 	while((opt = getopt(argc, argv, "p:s::U::S::v::c::")) != -1) {
 		switch(opt) {
@@ -23,7 +24,8 @@ int main(int argc, char *argv[]) {
 			//if no -p print all
 			//otherwise print specific pid
 			//printf("p %s\n", optarg);
-			p = 1;	
+			p = 1;
+			pid = *optarg;
 			break;
 		case 's':
 			//do not print if no argument
