@@ -10,43 +10,59 @@
 
 int main(int argc, char *argv[]) {
 	int opt;
+	int p = 0;
+	int s = 0;
+	int U = 1;
+	int S = 0;
+	int v = 0;
+	int c = 1;
 
 	while((opt = getopt(argc, argv, "p:s::U::S::v::c::")) != -1) {
 		switch(opt) {
 		case 'p':
 			//if no -p print all
 			//otherwise print specific pid
-			printf("p %s\n", optarg);	
+			//printf("p %s\n", optarg);
+			p = 1;	
 			break;
 		case 's':
 			//do not print if no argument
 			//print if -s
 			//-s- is valid but no effect
-			printf("s %c\n", *optarg);
+			//printf("s %c\n", *optarg);
+			s = 1;
 			break;
 		case 'U':
 			//print if no argument
 			//do not print if -U-
 			//does not state what to do for -U
-			printf("U %c\n", *optarg);
+			//printf("U %c\n", *optarg);
+			if(*optarg == '-') {
+				U = 0;
+			}
 			break;
 		case 'S':
 			//do not print if no argument
 			//print if -S
 			//-S- is valid but no effect
-			printf("S %c\n", *optarg);
+			//printf("S %c\n", *optarg);
+			S = 1;
 			break;
 		case 'v':
 			//do not print if no argument
 			//print if -v
 			//-v- is valid but no effect
-			printf("v %c\n", *optarg);
+			//printf("v %c\n", *optarg);
+			v = 1;
 			break;
 		case 'c':
 			//print if no argument
 			//do not print if -c-
 			//does not state what to do for -c
-			printf("c %c\n", *optarg);
+			//printf("c %c\n", *optarg);
+			if(*optarg == '-') {
+				c = 0;
+			}
 			break;
 		default: 
 			printf("You fucked up.\n");
