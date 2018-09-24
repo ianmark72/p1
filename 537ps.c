@@ -6,6 +6,8 @@
 #include <errno.h>
 #include <string.h>
 
+
+
 int main(int argc, char *argv[]) {
 	int opt;
 
@@ -51,4 +53,15 @@ int main(int argc, char *argv[]) {
 			exit(EXIT_FAILURE);
 		}
 	}
+	struct dirent *myFile;
+	DIR *proc;
+	if ((proc = opendir("/proc")) != NULL){
+		printf("success in opening proc\n");
+		while((myFile = readdir(proc)))
+			printf("%s\n", myFile->d_name);
+	}
+	else {
+		printf("failure in opening proc\n");
+	}
+	
 }
