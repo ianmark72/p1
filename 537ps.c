@@ -5,8 +5,35 @@
 #include <dirent.h>
 #include <errno.h>
 #include <string.h>
+#include "sHelper.h"
 
 
+char[] getInfo(int p,int s,int U,int S, int v, int c,char pid ){
+	char result[1000];
+	if(p){
+		if(s) { strcat(result, sHelper(pid)); }
+		if(U) { strcat(result, UHelper(pid)); }
+		if(S) { strcat(result, SHelper(pid); }
+		if(v) { strcat(result, vHelper(pid); }
+		if(c) { strcat(result, cHelper(pid); }
+	}
+	else {
+		struct dirent *procFile;
+        	DIR *proc;
+        	if ((proc = opendir("/proc")) != NULL){
+                while((procFile = readdir(proc))){
+		DIR *process;
+			if((
+		}
+        	}
+        	else {
+                printf("failure in opening proc\n");
+        	}
+	}
+
+
+	return "";	
+}
 
 int main(int argc, char *argv[]) {
 	int opt;
@@ -16,8 +43,7 @@ int main(int argc, char *argv[]) {
 	int S = 0;
 	int v = 0;
 	int c = 1;
-	char pid = -1;
-
+	char[] pid = "-1";
 	while((opt = getopt(argc, argv, "p:s::U::S::v::c::")) != -1) {
 		switch(opt) {
 		case 'p':
@@ -71,15 +97,6 @@ int main(int argc, char *argv[]) {
 			exit(EXIT_FAILURE);
 		}
 	}
-	struct dirent *myFile;
-	DIR *proc;
-	if ((proc = opendir("/proc")) != NULL){
-		printf("success in opening proc\n");
-		while((myFile = readdir(proc)))
-			printf("%s\n", myFile->d_name);
-	}
-	else {
-		printf("failure in opening proc\n");
-	}
+	getInfo(p,s,U,S,v,c,pid);
 	
 }
