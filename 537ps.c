@@ -6,6 +6,10 @@
 #include <errno.h>
 #include <string.h>
 #include "sHelper.h"
+#include "UHelper.h"
+#include "SHelper.h"
+#include "vHelper.h"
+#include "cHelper.h"
 
 
 char[] getInfo(int p,int s,int U,int S, int v, int c,char pid ){
