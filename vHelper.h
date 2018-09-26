@@ -1,0 +1,2 @@
+char[] vHelper(char[]);
+
