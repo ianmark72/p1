@@ -1,11 +1,15 @@
 #include "sHelper.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 
 void sHelper(char* pid, char* result) {
 	//Create file object.
 	FILE *file;
 	//Start of the filepath.
-        char[] filePath = "/proc/;
-	static char next[100];
+        char filePath[] = "/proc/";
+	char nextWord[100];
    	int infoLine = 0;
 
 	//Concatenate filepath with pid and status file to get full filepath.	
@@ -20,9 +24,9 @@ void sHelper(char* pid, char* result) {
 		exit(0);
 	}
 
-   	while(fscanf(file, "%s", next) != EOF) {
+   	while(fscanf(file, "%s", nextWord) != EOF) {
         	if(infoLine == 2) {
-			result = next;
+			strncat(result, nextWord, 100);
                 	break;
         	}
 

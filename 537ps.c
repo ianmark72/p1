@@ -5,6 +5,7 @@
 #include <dirent.h>
 #include <errno.h>
 #include <string.h>
+#include <ctype.h>
 #include "sHelper.h"
 #include "UHelper.h"
 #include "SHelper.h"
@@ -20,37 +21,35 @@ int isNumbers (const char *s){
         }
         return 1;
 }
-char[] getInfo (int p,int s,int U,int S, int v, int c,char pid ){
-	char result[1000];
+
+void getInfo (int p, int s, int U, int S, int v, int c, char* pid ){
+	static char result[1000];
+
 	if(p){
-		if(s) { strcat(result, sHelper(pid)); }
-		if(U) { strcat(result, UHelper(pid)); }
-		if(S) { strcat(result, SHelper(pid); }
-		if(v) { strcat(result, vHelper(pid); }
-		if(c) { strcat(result, cHelper(pid); }
-	}
-	else {
+		if(s) { sHelper(pid, result); }
+		if(U) { UHelper(pid, result); }
+		if(S) { SHelper(pid, result); }
+		if(v) { vHelper(pid, result); }
+		if(c) { cHelper(pid, result); }
+	} else {
 		struct dirent *procFile;
         	DIR *proc;
 		//first, open proc file
                 if ((proc = opendir("/proc")) != NULL){
-                while((procFile = readdir(proc))){
-			//filter out filenames that are not numbers
-                         if(isNumbers((procFile -> d_name))) {
-                                      if(s) { strcat(result, sHelper((procFile -> d_name))); }
-                		      if(U) { strcat(result, UHelper((procFile -> d_name))); }
-                		      if(S) { strcat(result, SHelper((procFile -> d_name)); }
-                	  	      if(v) { strcat(result, vHelper((procFile -> d_name)); }
-                		      if(c) { strcat(result, cHelper((procFile -> d_name)); }
-                        }
+                	while((procFile = readdir(proc))){
+				//filter out filenames that are not numbers
+                         	if(isNumbers((procFile -> d_name))) {
+                                      if(s) { sHelper((procFile -> d_name), result); }
+                		      if(U) { UHelper((procFile -> d_name), result); }
+                		      if(S) { SHelper((procFile -> d_name), result); }
+                	  	      if(v) { vHelper((procFile -> d_name), result); }
+                		      if(c) { cHelper((procFile -> d_name), result); }
+                        	}
+                	}
+		} else {
+                	printf("failure in opening proc\n");
                 }
-                else {
-                printf("failure in opening proc\n");
-                }
-	}
-
-
-	return result;	
+	}	
 }
 
 int main(int argc, char *argv[]) {
@@ -61,7 +60,7 @@ int main(int argc, char *argv[]) {
 	int S = 0;
 	int v = 0;
 	int c = 1;
-	char[] pid = "-1";
+	char pid[] = "-1";
 	while((opt = getopt(argc, argv, "p:s::U::S::v::c::")) != -1) {
 		switch(opt) {
 		case 'p':
@@ -69,7 +68,7 @@ int main(int argc, char *argv[]) {
 			//otherwise print specific pid
 			//printf("p %s\n", optarg);
 			p = 1;
-			pid = *optarg;
+			strcpy(pid, optarg);
 			break;
 		case 's':
 			//do not print if no argument
@@ -115,6 +114,6 @@ int main(int argc, char *argv[]) {
 			exit(EXIT_FAILURE);
 		}
 	}
-	getInfo(p,s,U,S,v,c,pid);
-	
+
+	getInfo( p, s, U, S, v, c, pid);
 }
