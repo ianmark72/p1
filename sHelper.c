@@ -5,13 +5,12 @@ char[] sHelper(char[] pid) {
 	FILE *file;
 	//Start of the filepath.
         char[] filePath = "/proc/;
-	//Next string in the file.
-	char nextStr[60];
+	char next[100];
+   	int infoLine = 0;
 
-	
-
-	//Concatenate filepath with pid to get full filepath.	
+	//Concatenate filepath with pid and status file to get full filepath.	
 	strncat(filePath, pid, 20);
+	strncat(filePath, "/stat", 30);
 
 	//Open file, r means read only.
 	file = fopen(filePath, "r");
@@ -21,9 +20,15 @@ char[] sHelper(char[] pid) {
 		exit(0);
 	}
 
-	//Not sure how do search through file yet.
-	//if(fgets(nextStr, 60, file) != NULL) {
-		
-	//}
-	
+   	while(fscanf(file, "%s", next) != EOF) {
+        	if(infoLine == 2) {
+                	break;
+        	}
+
+        	infoLine++;
+	}
+
+   	fclose(file);
+
+	return next;
 }

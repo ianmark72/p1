@@ -6,6 +6,10 @@
 #include <errno.h>
 #include <string.h>
 #include "sHelper.h"
+#include "UHelper.h"
+#include "SHelper.h"
+#include "vHelper.h"
+#include "cHelper.h"
 
 // This function checks if a string contains any non-numbers, returns 1 if the string contains only numbers and 0 if it contains any letters
 int isNumbers (const char *s){
