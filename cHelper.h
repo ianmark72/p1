@@ -1,2 +1,2 @@
-char[] cHelper(char[]);
+void cHelper(char*, char*);
 

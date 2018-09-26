@@ -1,1 +1,1 @@
-char[] sHelper(char[]);
+void sHelper(char*, char*);

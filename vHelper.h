@@ -1,2 +1,2 @@
-char[] vHelper(char[]);
+void vHelper(char*, char*);
 

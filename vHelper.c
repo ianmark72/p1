@@ -1,6 +1,6 @@
 #include "vHelper.h"
 
-char[] vHelper(char[] pid) {
+void vHelper(char* pid, char* result) {
         //Create file object.
         FILE *file;
         //Start of the filepath.
@@ -22,6 +22,7 @@ char[] vHelper(char[] pid) {
 
         while(fscanf(file, "%s", next) != EOF) {
                 if(infoLine == 0) {
+			result = next;
                         break;
 		}
 
@@ -29,7 +30,5 @@ char[] vHelper(char[] pid) {
         }
 
         fclose(file);
-
-        return next;
 }
 

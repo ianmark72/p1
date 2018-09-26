@@ -1,6 +1,6 @@
 #include "cHelper.h"
 
-char[] cHelper(char[] pid) {
+void cHelper(char* pid, char* result) {
         //Create file object.
         FILE *file;
         //Start of the filepath.
@@ -24,8 +24,8 @@ char[] cHelper(char[] pid) {
         	strncat(finalOutput, next, 100);
         }
 
-        fclose(file);
+	result = finalOutput;
 
-        return next;
+        fclose(file);
 }
 

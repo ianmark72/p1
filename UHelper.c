@@ -1,6 +1,6 @@
 #include "UHelper.h"
 
-char[] UHelper(char[] pid) {
+void UHelper(char* pid, char* result) {
         //Create file object.
         FILE *file;
         //Start of the filepath.
@@ -22,6 +22,7 @@ char[] UHelper(char[] pid) {
 
         while(fscanf(file, "%s", next) != EOF) {
                 if(infoLine == 13) {
+			result = next;
                         break;
                 }
 
@@ -29,7 +30,5 @@ char[] UHelper(char[] pid) {
         }
 
         fclose(file);
-
-        return next;
 }
 
