@@ -23,15 +23,22 @@ int isNumbers (const char *s){
 }
 
 void getInfo (int p, int s, int U, int S, int v, int c, char* pid ){
+	printf("Entered getInfo\n");
 	static char result[1000];
-
+	printf("Variables initialized\n");
+	
 	if(p){
 		if(s) { sHelper(pid, result); }
+		printf("After s helper\n");
 		if(U) { UHelper(pid, result); }
+		printf("After U helper\n");
 		if(S) { SHelper(pid, result); }
 		if(v) { vHelper(pid, result); }
 		if(c) { cHelper(pid, result); }
+		printf("After c helper\n");
+		//printf("%s\n", result);
 	} else {
+		printf("This should not print\n");
 		struct dirent *procFile;
         	DIR *proc;
 		//first, open proc file
@@ -44,6 +51,8 @@ void getInfo (int p, int s, int U, int S, int v, int c, char* pid ){
                 		      if(S) { SHelper((procFile -> d_name), result); }
                 	  	      if(v) { vHelper((procFile -> d_name), result); }
                 		      if(c) { cHelper((procFile -> d_name), result); }
+				      printf("%s\n", result);
+				      memset(result, 0, sizeof(result));
                         	}
                 	}
 		} else {
@@ -53,6 +62,7 @@ void getInfo (int p, int s, int U, int S, int v, int c, char* pid ){
 }
 
 int main(int argc, char *argv[]) {
+	printf("Program starts\n");
 	int opt;
 	int p = 0;
 	int s = 0;
@@ -61,9 +71,13 @@ int main(int argc, char *argv[]) {
 	int v = 0;
 	int c = 1;
 	char pid[] = "-1";
+	printf("Variables initialized\n");
+
 	while((opt = getopt(argc, argv, "p:s::U::S::v::c::")) != -1) {
 		switch(opt) {
 		case 'p':
+			printf("Entered p case\n");
+
 			//if no -p print all
 			//otherwise print specific pid
 			//printf("p %s\n", optarg);
@@ -71,6 +85,8 @@ int main(int argc, char *argv[]) {
 			strcpy(pid, optarg);
 			break;
 		case 's':
+			printf("Entered s case\n");
+
 			//do not print if no argument
 			//print if -s
 			//-s- is valid but no effect
@@ -78,15 +94,20 @@ int main(int argc, char *argv[]) {
 			s = 1;
 			break;
 		case 'U':
+			printf("Entered U case\n");
+
 			//print if no argument
 			//do not print if -U-
 			//does not state what to do for -U
 			//printf("U %c\n", *optarg);
 			if(*optarg == '-') {
+				printf("Turned U off\n");
 				U = 0;
 			}
 			break;
 		case 'S':
+			printf("Entered S case\n");
+
 			//do not print if no argument
 			//print if -S
 			//-S- is valid but no effect
@@ -94,6 +115,8 @@ int main(int argc, char *argv[]) {
 			S = 1;
 			break;
 		case 'v':
+			printf("Entered v case\n");
+
 			//do not print if no argument
 			//print if -v
 			//-v- is valid but no effect
@@ -101,19 +124,23 @@ int main(int argc, char *argv[]) {
 			v = 1;
 			break;
 		case 'c':
+			printf("Entered c case\n");
+
 			//print if no argument
 			//do not print if -c-
 			//does not state what to do for -c
 			//printf("c %c\n", *optarg);
 			if(*optarg == '-') {
+				printf("Turned c off\n");
 				c = 0;
 			}
 			break;
 		default: 
-			printf("You fucked up.\n");
+			printf("Invalid Arguments.\n");
 			exit(EXIT_FAILURE);
 		}
 	}
+	printf("Before getInfo call\n");
 
 	getInfo( p, s, U, S, v, c, pid);
 }
