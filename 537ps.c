@@ -7,8 +7,16 @@
 #include <string.h>
 #include "sHelper.h"
 
-
-char[] getInfo(int p,int s,int U,int S, int v, int c,char pid ){
+// This function checks if a string contains any non-numbers, returns 1 if the string contains only numbers and 0 if it contains any letters
+int isNumbers (const char *s){
+        while(*s) {
+        	if(isdigit(*s++) == 0) { 
+			return 0;
+		}
+        }
+        return 1;
+}
+char[] getInfo (int p,int s,int U,int S, int v, int c,char pid ){
 	char result[1000];
 	if(p){
 		if(s) { strcat(result, sHelper(pid)); }
@@ -20,19 +28,25 @@ char[] getInfo(int p,int s,int U,int S, int v, int c,char pid ){
 	else {
 		struct dirent *procFile;
         	DIR *proc;
-        	if ((proc = opendir("/proc")) != NULL){
+		//first, open proc file
+                if ((proc = opendir("/proc")) != NULL){
                 while((procFile = readdir(proc))){
-		DIR *process;
-			if((
-		}
-        	}
-        	else {
+			//filter out filenames that are not numbers
+                         if(isNumbers((procFile -> d_name))) {
+                                      if(s) { strcat(result, sHelper((procFile -> d_name))); }
+                		      if(U) { strcat(result, UHelper((procFile -> d_name))); }
+                		      if(S) { strcat(result, SHelper((procFile -> d_name)); }
+                	  	      if(v) { strcat(result, vHelper((procFile -> d_name)); }
+                		      if(c) { strcat(result, cHelper((procFile -> d_name)); }
+                        }
+                }
+                else {
                 printf("failure in opening proc\n");
-        	}
+                }
 	}
 
 
-	return "";	
+	return result;	
 }
 
 int main(int argc, char *argv[]) {
