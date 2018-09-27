@@ -24,10 +24,12 @@ int isNumbers (const char *s){
 
 void getInfo (int p, int s, int U, int S, int v, int c, char* pid ){
 	printf("Entered getInfo\n");
-	static char result[1000];
+	static char result[100];
 	printf("Variables initialized\n");
 	
 	if(p){
+		strncat(result, pid, 100);
+		strncat(result, ": ", 100);
 		if(s) { sHelper(pid, result); }
 		printf("After s helper\n");
 		if(U) { UHelper(pid, result); }
@@ -36,7 +38,7 @@ void getInfo (int p, int s, int U, int S, int v, int c, char* pid ){
 		if(v) { vHelper(pid, result); }
 		if(c) { cHelper(pid, result); }
 		printf("After c helper\n");
-		//printf("%s\n", result);
+		printf("%s\n", result);
 	} else {
 		printf("This should not print\n");
 		struct dirent *procFile;
@@ -46,6 +48,9 @@ void getInfo (int p, int s, int U, int S, int v, int c, char* pid ){
                 	while((procFile = readdir(proc))){
 				//filter out filenames that are not numbers
                          	if(isNumbers((procFile -> d_name))) {
+					strncat(result, procFile -> d_name, 100);
+			                strncat(result, ": ", 100);
+
                                       if(s) { sHelper((procFile -> d_name), result); }
                 		      if(U) { UHelper((procFile -> d_name), result); }
                 		      if(S) { SHelper((procFile -> d_name), result); }
@@ -70,7 +75,7 @@ int main(int argc, char *argv[]) {
 	int S = 0;
 	int v = 0;
 	int c = 1;
-	char pid[] = "-1";
+	char pid[100];
 	printf("Variables initialized\n");
 
 	while((opt = getopt(argc, argv, "p:s::U::S::v::c::")) != -1) {
