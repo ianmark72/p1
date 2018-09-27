@@ -23,6 +23,7 @@
 #include "SHelper.h"
 #include "vHelper.h"
 #include "cHelper.h"
+#define BUF_SIZE 100
 
 /**
  *  This function checks if a string contains any non-numbers, returns 1
@@ -66,13 +67,13 @@ int isNumbers (const char *string){
  */
 void getInfo (int p, int s, int U, int S, int v, int c, char* pid ){
 	//Final line of information to be desiplayed.
-	static char result[100];
+	static char result[BUF_SIZE];
 	
 	//If a single or all processes should be displayed.
 	if(p){
 		//Add pid to output.
-		strncat(result, pid, 100);
-		strncat(result, ": ", 100);
+		strncat(result, pid, BUF_SIZE);
+		strncat(result, ": ", BUF_SIZE);
 
 		//Send to helper function if needed.
 		if(s) { sHelper(pid, result); }
@@ -96,8 +97,8 @@ void getInfo (int p, int s, int U, int S, int v, int c, char* pid ){
 				//Filter out filenames that are not numbers.
                          	if(isNumbers((procFile -> d_name))) {
 					//Add pid to output.
-					strncat(result, procFile -> d_name, 100);
-			                strncat(result, ": ", 100);
+					strncat(result, procFile -> d_name, BUF_SIZE);
+			                strncat(result, ": ", BUF_SIZE);
 					
 					//Call neccessary helper functions.
                                      	if(s) { sHelper((procFile -> d_name), result); }
@@ -140,7 +141,7 @@ int main(int argc, char *argv[]) {
 	//Boolean for command line call.
 	int c = 1;
 	//Process' ID.
-	char pid[100];
+	char pid[BUF_SIZE];
 	
 	//Parse through the arguments
 	while((opt = getopt(argc, argv, "p:s::U::S::v::c::")) != -1) {

@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#define BUF_SIZE 100
 
 /**
  *  This function reteives the stime of the process based on the pid
@@ -25,7 +26,7 @@ void SHelper(char* pid, char* result) {
         //Start of the filepath.
         char filePath[] = "/proc/";
 	//The next word in the file.
-        char nextWord[100];
+        char nextWord[BUF_SIZE];
 	//Index of the element in the file.
         int infoLine = 0;
 	//First letter of a file output.
@@ -34,8 +35,8 @@ void SHelper(char* pid, char* result) {
         char lastLetter;
 
         //Concatenate filepath with pid and status file to get full filepath.
-        strncat(filePath, pid, 20);
-        strncat(filePath, "/stat", 30);
+        strncat(filePath, pid, BUF_SIZE);
+        strncat(filePath, "/stat", BUF_SIZE);
 
         //Open file, r means read only.
         file = fopen(filePath, "r");
@@ -49,8 +50,8 @@ void SHelper(char* pid, char* result) {
         while(fscanf(file, "%s", nextWord) != EOF) {
                 if(infoLine == 13) {
 			//Concatenate info onto the result string.
-			strncat(result, nextWord, 100);
-			strncat(result, " ", 100);
+			strncat(result, nextWord, BUF_SIZE);
+			strncat(result, " ", BUF_SIZE);
                         break;
                 }
 
