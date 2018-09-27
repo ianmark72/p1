@@ -37,10 +37,9 @@ int isNumbers (const char *string){
 	//Cycles through all character to see if any are letters.
         while(*string) {
 		//If any are letters return false.
-        	if(isdigit(*string) == 0) { 
+        	if(isdigit(*string++) == 0) { 
 			return 0;
 		}
-		*string++;
         }
         return 1;
 }
