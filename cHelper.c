@@ -25,10 +25,12 @@ void cHelper(char* pid, char* result) {
         }
 
         while(fscanf(file, "%s", nextWord) != EOF) {
-        	strncat(finalOutput, nextWord, 100);
+		strncat(finalOutput, "[", 200);
+        	strncat(finalOutput, nextWord, 200);
+		strncat(finalOutput, "]", 200);
         }
 
-	strncat(result, finalOutput, 100);
+	strncat(result, finalOutput, 200);
 
         fclose(file);
 }
