@@ -1,2 +1,2 @@
 NETID: mderzay CS LOGIN: derzay NAME: Matt Derzay
-NETID: imark CS LOGINL imark NAME: Ian Mark
+NETID: imark CS LOGIN: imark NAME: Ian Mark
