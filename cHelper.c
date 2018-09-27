@@ -24,6 +24,7 @@ void cHelper(char* pid, char* result) {
                 printf("File cannot be opened\n");
                 exit(0);
         }
+	strcpy(finalOutput, "");
 	strncat(finalOutput, "[", BUF_SIZE_BIG);
 	 do {
 		 char c;
