@@ -25,8 +25,9 @@ void SHelper(char* pid, char* result) {
         }
 
         while(fscanf(file, "%s", nextWord) != EOF) {
-                if(infoLine == 2) {
+                if(infoLine == 13) {
 			strncat(result, nextWord, 100);
+			strncat(result, " ", 100);
                         break;
                 }
 

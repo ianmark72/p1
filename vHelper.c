@@ -27,6 +27,7 @@ void vHelper(char* pid, char* result) {
         while(fscanf(file, "%s", nextWord) != EOF) {
                 if(infoLine == 0) {
 			strncat(result, nextWord, 100);
+			strncat(result, " ", 100);
                         break;
 		}
 

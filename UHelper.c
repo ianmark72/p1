@@ -9,7 +9,7 @@ void UHelper(char* pid, char* result) {
         FILE *file;
         //Start of the filepath.
         char filePath[] = "/proc/";
-        char nextWord[100];
+        char nextWord[200];
         int infoLine = 0;
 
         //Concatenate filepath with pid and status file to get full filepath.
@@ -27,6 +27,7 @@ void UHelper(char* pid, char* result) {
         while(fscanf(file, "%s", nextWord) != EOF) {
                 if(infoLine == 13) {
 			strncat(result, nextWord, 100);
+			strncat(result, " ", 100);
                         break;
                 }
 
