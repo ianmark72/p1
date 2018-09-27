@@ -28,6 +28,10 @@ void sHelper(char* pid, char* result) {
 	char nextWord[100];
 	//Index of the elements in the file.
    	int infoLine = 0;
+	//First letter of a file output.
+	char firstLetter;
+	//Last letter of a file output.
+	char lastLetter;
 
 	//Concatenate filepath with pid and status file to get full filepath.	
 	strncat(filePath, pid, 20);
@@ -50,7 +54,14 @@ void sHelper(char* pid, char* result) {
                 	break;
         	}
 
-        	infoLine++;
+		//Set variable to chack if its a name with two words.
+		firstLetter = nextWord[0];
+		lastLetter = nextWord[strlen(nextWord) - 1];
+		if(firstLetter == '(' && lastLetter != ')') {
+
+		} else {
+        		infoLine++;
+		}
 	}
 
    	fclose(file);

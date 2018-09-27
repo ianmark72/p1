@@ -155,41 +155,50 @@ int main(int argc, char *argv[]) {
 			//Set to true if argument exists.
 			s = 1;
 			//Turn off if -s-.
-			if(*optarg == '-') {
-                                s = 0;
-                        }
+			if(optarg != NULL){
+				if(*optarg == '-') {
+                                	s = 0;
+                        	}
+			}
 			break;
 		case 'U':
 			//In case of -U.
 			U = 1;
 			//Turn off if -U-.
-			if(*optarg == '-') {
-				U = 0;
+			if(optarg != NULL) {
+				if(*optarg == '-') {
+					U = 0;
+				}
 			}
 			break;
 		case 'S':
 			//Set toe true if argument exists.
 			S = 1;
 			//Turn off if -S-.
-			if(*optarg == '-') {
-                                S = 0;
-                        }
+			if(optarg != NULL) {
+				if(*optarg == '-') {
+                                	S = 0;
+                        	}
+			}
 			break;
 		case 'v':
 			//Set to true if argument exists.
 			v = 1;
 			//Turn off if -v-.
-			if(*optarg == '-') {
-                                v = 0;
-                        }
+			if(optarg != NULL) {
+				if(*optarg == '-') {
+                                	v = 0;
+                        	}
+			}
 			break;
 		case 'c':
 			//In case of -c.
 			c = 1;
 			//Turn off if -c-.
-			if(*optarg == '-') {
-				printf("Turned c off\n");
-				c = 0;
+			if(optarg != NULL) {
+				if(*optarg == '-') {
+					c = 0;
+				}
 			}
 			break;
 		default: 
