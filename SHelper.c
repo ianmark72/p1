@@ -1,15 +1,32 @@
+/***********************************************************************
+* FILENAME: SHelper.c
+*
+* DESCRIPTION:
+*       This file contains the SHelper function.
+*
+* AUTHORS: Matthew Derzay, CS Login: derzay
+*          Ian Mark, CS Login: imark
+*
+***********************************************************************/
+
 #include "SHelper.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
+/**
+ *  This function reteives the stime of the process based on the pid
+ *  given. Then concatenates the information onto the result string.
+ */
 void SHelper(char* pid, char* result) {
         //Create file object.
         FILE *file;
         //Start of the filepath.
         char filePath[] = "/proc/";
+	//The next word in the file.
         char nextWord[100];
+	//Index of the element in the file.
         int infoLine = 0;
 
         //Concatenate filepath with pid and status file to get full filepath.
@@ -24,8 +41,10 @@ void SHelper(char* pid, char* result) {
                 exit(0);
         }
 
+	//Read through the file.
         while(fscanf(file, "%s", nextWord) != EOF) {
                 if(infoLine == 13) {
+			//Concatenate info onto the result string.
 			strncat(result, nextWord, 100);
 			strncat(result, " ", 100);
                         break;

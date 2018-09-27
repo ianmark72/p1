@@ -1,3 +1,15 @@
+/***********************************************************************
+* FILENAME: 537ps.c 
+*
+* DESCRIPTION:
+* 	This is the main file of the program. It parses the user input
+* 	and calls the neccessary helper methods. Once all the data
+* 	is returned the program prints out the output.
+* 
+* AUTHORS: Matthew Derzay, CS Login: derzay
+* 	   Ian Mark, CS Login: imark
+*
+***********************************************************************/
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,140 +24,181 @@
 #include "vHelper.h"
 #include "cHelper.h"
 
-// This function checks if a string contains any non-numbers, returns 1 if the string contains only numbers and 0 if it contains any letters
-int isNumbers (const char *s){
-        while(*s) {
-        	if(isdigit(*s++) == 0) { 
+/**
+ *  This function checks if a string contains any non-numbers, returns 1
+ *  if the string contains only numbers and 0 if it contains any letters.
+ *
+ *  Parameters: s - The string that is being checked.
+ *
+ *  Return: int - Boolean stating whether or not the string is a number.
+ */
+int isNumbers (const char *string){
+	//Cycles through all character to see if any are letters.
+        while(*string) {
+		//If any are letters return false.
+        	if(isdigit(*string) == 0) { 
 			return 0;
 		}
+		*string++;
         }
         return 1;
 }
 
+/**
+ *  This function determines which process will be displayed then 
+ *  passes these pids in the helper function and then prints the info
+ *  once received.
+ *
+ *  Parameters: p - Boolean determining whether a specific process should
+ *  		    be displayed or all.
+ *  		s - Boolean determining whether or not the state of the
+ *  		    process should be displayed.
+ *  		U - Boolean determining whether or not the utime of 
+ *  		    the process should be displayed.
+ *              S - Boolean determining whether or not stime should be
+ *                  displayed.
+ *              v - Boolean determining whether or not the virtual
+ *                  memory usage should be displayed.
+ *              c - Boolean determining whether or not the command line
+ *                  that called this process should be displayed.
+ *              pid - PID of the process being displayed.
+ *
+ */
 void getInfo (int p, int s, int U, int S, int v, int c, char* pid ){
-	printf("Entered getInfo\n");
+	//Final line of information to be desiplayed.
 	static char result[100];
-	printf("Variables initialized\n");
 	
+	//If a single or all processes should be displayed.
 	if(p){
+		//Add pid to output.
 		strncat(result, pid, 100);
 		strncat(result, ": ", 100);
+
+		//Send to helper function if needed.
 		if(s) { sHelper(pid, result); }
-		printf("After s helper\n");
 		if(U) { UHelper(pid, result); }
-		printf("After U helper\n");
 		if(S) { SHelper(pid, result); }
 		if(v) { vHelper(pid, result); }
 		if(c) { cHelper(pid, result); }
-		printf("After c helper\n");
+
+		//Print final output.
 		printf("%s\n", result);
 	} else {
-		printf("This should not print\n");
+		//Structure to store directory information.
 		struct dirent *procFile;
+		//Pointer to location of the proc directory.
         	DIR *proc;
-		//first, open proc file
+
+		//First, open proc file.
                 if ((proc = opendir("/proc")) != NULL){
+			//Read through the entire proc directory.
                 	while((procFile = readdir(proc))){
-				//filter out filenames that are not numbers
+				//Filter out filenames that are not numbers.
                          	if(isNumbers((procFile -> d_name))) {
+					//Add pid to output.
 					strncat(result, procFile -> d_name, 100);
 			                strncat(result, ": ", 100);
+					
+					//Call neccessary helper functions.
+                                     	if(s) { sHelper((procFile -> d_name), result); }
+                		      	if(U) { UHelper((procFile -> d_name), result); }
+                		      	if(S) { SHelper((procFile -> d_name), result); }
+                	  	      	if(v) { vHelper((procFile -> d_name), result); }
+                		      	if(c) { cHelper((procFile -> d_name), result); }
 
-                                      if(s) { sHelper((procFile -> d_name), result); }
-                		      if(U) { UHelper((procFile -> d_name), result); }
-                		      if(S) { SHelper((procFile -> d_name), result); }
-                	  	      if(v) { vHelper((procFile -> d_name), result); }
-                		      if(c) { cHelper((procFile -> d_name), result); }
-				      printf("%s\n", result);
-				      memset(result, 0, sizeof(result));
+					//Print output.
+				      	printf("%s\n", result);
+					//Clear output for the next line.
+				      	memset(result, 0, sizeof(result));
                         	}
                 	}
 		} else {
+			//Print error if unable to open directory.
                 	printf("failure in opening proc\n");
                 }
 	}	
 }
-
+/**
+ *  The main function where the arguments are parsed and the booleans of what
+ *  information should be displayed. These boolean are then passed on to the 
+ *  getInfo() method.
+ *
+ */
 int main(int argc, char *argv[]) {
-	printf("Program starts\n");
+	//Argument being parsed.
 	int opt;
+	//One specific process or all process boolean.
 	int p = 0;
+	//Boolean for process state.
 	int s = 0;
+	//Boolean for utime.
 	int U = 1;
+	//Boolean for stime.
 	int S = 0;
+	//Boolean for visual memory usage.
 	int v = 0;
+	//Boolean for command line call.
 	int c = 1;
+	//Process' ID.
 	char pid[100];
-	printf("Variables initialized\n");
-
+	
+	//Parse through the arguments
 	while((opt = getopt(argc, argv, "p:s::U::S::v::c::")) != -1) {
+		//Switch statement for the different argument cases.
 		switch(opt) {
 		case 'p':
-			printf("Entered p case\n");
-
-			//if no -p print all
-			//otherwise print specific pid
-			//printf("p %s\n", optarg);
+			//Set to true if argument exists.
 			p = 1;
 			strcpy(pid, optarg);
 			break;
 		case 's':
-			printf("Entered s case\n");
-
-			//do not print if no argument
-			//print if -s
-			//-s- is valid but no effect
-			//printf("s %c\n", *optarg);
+			//Set to true if argument exists.
 			s = 1;
+			//Turn off if -s-.
+			if(*optarg == '-') {
+                                s = 0;
+                        }
 			break;
 		case 'U':
-			printf("Entered U case\n");
-
-			//print if no argument
-			//do not print if -U-
-			//does not state what to do for -U
-			//printf("U %c\n", *optarg);
+			//In case of -U.
+			U = 1;
+			//Turn off if -U-.
 			if(*optarg == '-') {
-				printf("Turned U off\n");
 				U = 0;
 			}
 			break;
 		case 'S':
-			printf("Entered S case\n");
-
-			//do not print if no argument
-			//print if -S
-			//-S- is valid but no effect
-			//printf("S %c\n", *optarg);
+			//Set toe true if argument exists.
 			S = 1;
+			//Turn off if -S-.
+			if(*optarg == '-') {
+                                S = 0;
+                        }
 			break;
 		case 'v':
-			printf("Entered v case\n");
-
-			//do not print if no argument
-			//print if -v
-			//-v- is valid but no effect
-			//printf("v %c\n", *optarg);
+			//Set to true if argument exists.
 			v = 1;
+			//Turn off if -v-.
+			if(*optarg == '-') {
+                                v = 0;
+                        }
 			break;
 		case 'c':
-			printf("Entered c case\n");
-
-			//print if no argument
-			//do not print if -c-
-			//does not state what to do for -c
-			//printf("c %c\n", *optarg);
+			//In case of -c.
+			c = 1;
+			//Turn off if -c-.
 			if(*optarg == '-') {
 				printf("Turned c off\n");
 				c = 0;
 			}
 			break;
 		default: 
+			//Error if any invalid arguments
 			printf("Invalid Arguments.\n");
 			exit(EXIT_FAILURE);
 		}
 	}
-	printf("Before getInfo call\n");
 
+	//Send booleans to getInfo().
 	getInfo( p, s, U, S, v, c, pid);
 }

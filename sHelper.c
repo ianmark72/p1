@@ -1,15 +1,32 @@
+/***********************************************************************
+* FILENAME: sHelper.c
+*
+* DESCRIPTION:
+* 	This file contains the sHelper function.
+*
+* AUTHORS: Matthew Derzay, CS Login: derzay
+*          Ian Mark, CS Login: imark
+*
+***********************************************************************/
+
 #include "sHelper.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
+/**
+ *  This function reteives the state of the process based on the pid 
+ *  given. Then concatenates the information onto the result string.
+ */
 void sHelper(char* pid, char* result) {
 	//Create file object.
 	FILE *file;
 	//Start of the filepath.
         char filePath[] = "/proc/";
+	//Next word in the file.
 	char nextWord[100];
+	//Index of the elements in the file.
    	int infoLine = 0;
 
 	//Concatenate filepath with pid and status file to get full filepath.	
@@ -23,9 +40,11 @@ void sHelper(char* pid, char* result) {
 		printf("File cannot be opened\n");
 		exit(0);
 	}
-
+	
+	//Read through the stat file and find the state data.
    	while(fscanf(file, "%s", nextWord) != EOF) {
         	if(infoLine == 2) {
+			//Concatenate the data onto the result;
 			strncat(result, nextWord, 100);
 			strncat(result, " ", 100);
                 	break;
