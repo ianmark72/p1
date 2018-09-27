@@ -14,7 +14,7 @@ void cHelper(char* pid, char* result) {
 
         //Concatenate filepath with pid and status file to get full filepath.
         strncat(filePath, pid, 20);
-        strncat(filePath, "/stat", 30);
+        strncat(filePath, "/cmdline", 30);
 
         //Open file, r means read only.
         file = fopen(filePath, "r");
