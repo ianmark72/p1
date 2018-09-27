@@ -5,7 +5,6 @@
 #include <errno.h>
 #include <ctype.h>
 #define BUF_SIZE_BIG 1024
-#define BUF_SIZE_SMALL 256
 
 void cHelper(char* pid, char* result) {
         //Create file object.
@@ -15,8 +14,8 @@ void cHelper(char* pid, char* result) {
 	char finalOutput[BUF_SIZE_BIG];
 
         //Concatenate filepath with pid and status file to get full filepath.
-        strncat(filePath, pid, BUF_SIZE_SMALL);
-        strncat(filePath, "/cmdline", BUF_SIZE_SMALL);
+        strncat(filePath, pid, BUF_SIZE_BIG);
+        strncat(filePath, "/cmdline", BUF_SIZE_BIG);
 
         //Open file, r means read only.
         file = fopen(filePath, "r");
@@ -41,13 +40,9 @@ void cHelper(char* pid, char* result) {
 
 } while(1);
 strncat(finalOutput, "]", BUF_SIZE_BIG);
-       // while(fscanf(file, "%s", nextWord) != EOF) {
-	//	strncat(finalOutput, "[", 200);
-        //	strncat(finalOutput, nextWord, 200);
-	//	strncat(finalOutput, "]", 200);
-        //}
 
-	strncat(result, finalOutput, 200);
+
+	strncat(result, finalOutput, BUF_SIZE_BIG);
 
         fclose(file);
 }
