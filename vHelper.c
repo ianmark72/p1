@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#define BUF_SIZE 100
 
 /**
  *  This function reteives the virtual memory usage of the process
@@ -26,7 +27,7 @@ void vHelper(char* pid, char* result) {
         //Start of the filepath.
         char filePath[] = "/proc/";
 	//The next word in the file.
-        char nextWord[100];
+        char nextWord[BUF_SIZE];
 	//Index of the next element in the file.
         int infoLine = 0;
 	//First letter of a file output.
@@ -35,8 +36,8 @@ void vHelper(char* pid, char* result) {
         char lastLetter;
 
         //Concatenate filepath with pid and status file to get full filepath.
-        strncat(filePath, pid, 20);
-        strncat(filePath, "/statm", 30);
+        strncat(filePath, pid, BUF_SIZE);
+        strncat(filePath, "/statm", BUF_SIZE);
 
         //Open file, r means read only.
         file = fopen(filePath, "r");
@@ -50,8 +51,8 @@ void vHelper(char* pid, char* result) {
         while(fscanf(file, "%s", nextWord) != EOF) {
                 if(infoLine == 0) {
 			//Concatenate the info onto the results string.
-			strncat(result, nextWord, 100);
-			strncat(result, " ", 100);
+			strncat(result, nextWord, BUF_SIZE);
+			strncat(result, " ", BUF_SIZE);
                         break;
 		}
 
