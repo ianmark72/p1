@@ -8,4 +8,11 @@ all: 537ps.c sHelper.c UHelper.c SHelper.c vHelper.c cHelper.c
 	gcc -o 537ps 537ps.o sHelper.o UHelper.o SHelper.o vHelper.o cHelper.o -lm
 
 clean: 537ps
-	rm 537ps
+	rm -f 537ps *.o
+	rm -rf scanBuildDir
+
+scan-build: clean
+	scan-build -o scanBuildDir make
+
+scan-view: scan-build
+	firefox -new-window scanBuildDir/*/index.html

@@ -207,10 +207,10 @@ int main(int argc, char *argv[]) {
 			exit(EXIT_FAILURE);
 		}
 
-		if(optind < argc) {
-			printf("Invalid Arguments.\n");
-			exit(EXIT_FAILURE);
-		}
+		//if(optind < argc) {
+		//	printf("Invalid Arguments.\n");
+		//	exit(EXIT_FAILURE);
+		//}
 	}
 
 	//Send booleans to getInfo().
